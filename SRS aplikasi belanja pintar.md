@@ -54,23 +54,13 @@ Aplikasi ini akan dikembangkan dengan target awal platform **Android**, kemudian
 ### 2.2 Use Case Diagram
 
 ```mermaid
-usecaseDiagram
-  actor Pengguna
-  actor Firebase as "Sistem Firebase"
-
-  Pengguna --> (Login/Registrasi)
-  Pengguna --> (Kelola Daftar Belanja)
-  Pengguna --> (Tambah Item)
-  Pengguna --> (Tandai Item Selesai)
-  Pengguna --> (Atur Reminder)
-  Pengguna --> (Berbagi Daftar)
-
-  (Login/Registrasi) --> (Sistem Firebase)
-  (Kelola Daftar Belanja) --> (Sistem Firebase)
-  (Tambah Item) --> (Sistem Firebase)
-  (Berbagi Daftar) --> (Sistem Firebase)
-  (Atur Reminder) --> (Sistem Firebase)
-
+flowchart LR
+    Pengguna((Pengguna)) --> |Login/Registrasi| Firebase[(Sistem Firebase)]
+    Pengguna --> |Kelola Daftar Belanja| Firebase
+    Pengguna --> |Tambah Item| Firebase
+    Pengguna --> |Tandai Item Selesai| Firebase
+    Pengguna --> |Atur Reminder| Firebase
+    Pengguna --> |Berbagi Daftar| Firebase
 ```
 
 ---
