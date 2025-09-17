@@ -1,6 +1,6 @@
 # Software Requirements Specification (SRS)
 
-*Aplikasi Belanja Pintar*
+**Aplikasi Belanja Pintar**
 
 ---
 
@@ -8,137 +8,201 @@
 
 ### 1.1 Tujuan
 
-Dokumen ini mendefinisikan kebutuhan perangkat lunak aplikasi **Belanja Pintar** secara detail. Dokumen ini berfungsi sebagai kontrak antara pengembang dan pemangku kepentingan mengenai fitur, fungsi, dan kualitas aplikasi yang harus dipenuhi.
+Dokumen ini menyajikan spesifikasi kebutuhan perangkat lunak untuk **Aplikasi Belanja Pintar**, aplikasi mobile yang membantu pengguna mencatat, mengelola, dan berbagi daftar belanja sehari-hari dengan lebih efisien.
 
 ### 1.2 Ruang Lingkup
 
-Aplikasi **Belanja Pintar** adalah aplikasi mobile berbasis Flutter yang memungkinkan pengguna:
+Aplikasi Belanja Pintar ditujukan untuk:
 
-* Membuat daftar belanja digital.
-* Menambahkan item dengan kategori, jumlah, dan catatan.
+* Membuat dan mengelola daftar belanja.
+* Menambahkan item belanja dengan detail (nama, jumlah, kategori, catatan).
 * Menandai item yang sudah dibeli.
-* Berbagi daftar dengan orang lain.
-* Menerima notifikasi pengingat belanja.
+* Memberikan pengingat (reminder) sebelum belanja.
+* Mendukung berbagi daftar ke pengguna lain.
 
-Aplikasi ini akan dikembangkan dengan target awal platform **Android**, kemudian dapat diperluas ke **iOS**.
+Aplikasi ini berbasis **Flutter** dengan backend **Firebase** (Authentication, Firestore, dan Push Notification).
 
-### 1.3 Definisi & Singkatan
+### 1.3 Definisi, Singkatan, dan Akronim
 
-* **FR (Functional Requirement):** Persyaratan fungsional.
-* **NFR (Non-Functional Requirement):** Persyaratan non-fungsional.
-* **Actor:** Pihak yang berinteraksi dengan sistem (Pengguna, Admin, Sistem).
-
-### 1.4 Referensi
-
-* PRD Aplikasi Belanja Pintar.
-* Dokumentasi Flutter SDK.
-* Dokumentasi Firebase Authentication, Firestore, dan Cloud Messaging.
+* **SRS**: Software Requirements Specification.
+* **CRUD**: Create, Read, Update, Delete.
+* **Firebase**: Backend as a Service (BaaS) dari Google.
 
 ---
 
-## 2. Persyaratan Fungsional
+## 2. Deskripsi Umum
 
-### 2.1 Daftar Persyaratan Fungsional
+### 2.1 Perspektif Produk
 
-| ID    | Nama Fitur               | Deskripsi                                                      | Aktor    | Input                         | Output                     | Pre-Kondisi                 | Post-Kondisi                    |
-| ----- | ------------------------ | -------------------------------------------------------------- | -------- | ----------------------------- | -------------------------- | --------------------------- | ------------------------------- |
-| FR001 | Login & Registrasi       | Pengguna dapat membuat akun baru atau login.                   | Pengguna | Email, password               | Dashboard atau pesan error | Aplikasi terhubung internet | Pengguna masuk aplikasi         |
-| FR002 | Manajemen Daftar Belanja | Tambah, edit, hapus daftar belanja.                            | Pengguna | Nama daftar, item             | Daftar tersimpan           | Sudah login                 | Daftar tersimpan di database    |
-| FR003 | Tambah Item Belanja      | Pengguna menambahkan item baru ke daftar.                      | Pengguna | Nama item, kategori, jumlah   | Item tersimpan             | Ada daftar aktif            | Item muncul di daftar belanja   |
-| FR004 | Tandai Barang Selesai    | Pengguna menandai barang sudah dibeli.                         | Pengguna | Checkbox/tombol centang       | Status item berubah        | Ada daftar aktif            | Item ditandai sebagai “dibeli”  |
-| FR005 | Notifikasi / Reminder    | Pengguna mengatur pengingat belanja.                           | Pengguna | Tanggal, jam                  | Push notifikasi            | Izin notifikasi aktif       | Pengguna menerima notifikasi    |
-| FR006 | Berbagi Daftar Belanja   | Pengguna berbagi daftar ke orang lain melalui email atau link. | Pengguna | Email penerima / link sharing | Undangan berbagi           | Daftar belanja ada          | Penerima dapat mengakses daftar |
+Aplikasi berperan sebagai alat produktivitas, mirip dengan aplikasi *Listonic* atau *Google Keep*, namun fokus pada **pengelolaan belanja harian**.
+
+### 2.2 Fungsi Utama
+
+* Registrasi/Login.
+* Membuat & mengelola daftar belanja.
+* Menambahkan item belanja.
+* Menandai item selesai.
+* Reminder otomatis.
+* Berbagi daftar ke pengguna lain.
+
+### 2.3 Karakteristik Pengguna
+
+* **Pengguna Umum**: individu atau keluarga yang membutuhkan catatan belanja.
+* **Power User**: pengguna aktif yang ingin berbagi daftar ke keluarga/teman.
+
+### 2.4 Batasan
+
+* Memerlukan koneksi internet.
+* Akun pengguna wajib login.
+* Hanya mendukung bahasa Indonesia (versi awal).
 
 ---
 
-### 2.2 Use Case Diagram
+## 3. Kebutuhan Fungsional
+
+### 3.1 Autentikasi
+
+* **F1.1**: Pengguna dapat registrasi menggunakan email & password.
+* **F1.2**: Pengguna dapat login.
+* **F1.3**: Sistem memverifikasi akun dengan Firebase.
+
+### 3.2 Daftar Belanja
+
+* **F2.1**: Pengguna dapat membuat daftar belanja baru.
+* **F2.2**: Pengguna dapat menambahkan item (nama, jumlah, catatan).
+* **F2.3**: Pengguna dapat menandai item selesai.
+* **F2.4**: Pengguna dapat menghapus atau mengedit item.
+
+### 3.3 Reminder
+
+* **F3.1**: Pengguna dapat menambahkan pengingat.
+* **F3.2**: Sistem mengirim notifikasi sebelum waktu belanja.
+
+### 3.4 Berbagi Daftar
+
+* **F4.1**: Pengguna dapat membagikan daftar ke akun lain.
+* **F4.2**: Penerima dapat melihat & mengedit (jika diberi izin).
+
+---
+
+## 4. Kebutuhan Non-Fungsional
+
+* **N1**: Aplikasi harus berjalan pada Android minimal versi 8.0.
+* **N2**: Respon aplikasi < 2 detik.
+* **N3**: Data pengguna disimpan di Firebase dengan keamanan Firestore Rules.
+* **N4**: Antarmuka ramah pengguna (UX sederhana).
+
+---
+
+## 5. Diagram Alur Sistem
+
+### 5.1 Flowchart Login & Registrasi
 
 ```mermaid
-flowchart LR
-    Pengguna((Pengguna)) --> |Login/Registrasi| Firebase[(Sistem Firebase)]
-    Pengguna --> |Kelola Daftar Belanja| Firebase
-    Pengguna --> |Tambah Item| Firebase
-    Pengguna --> |Tandai Item Selesai| Firebase
-    Pengguna --> |Atur Reminder| Firebase
-    Pengguna --> |Berbagi Daftar| Firebase
+flowchart TD
+    A[Mulai] --> B{Sudah Punya Akun?}
+    B -- Ya --> C[Login dengan Email & Password]
+    B -- Tidak --> D[Registrasi Akun Baru]
+    C --> E[Firebase Autentikasi]
+    D --> E[Firebase Autentikasi]
+    E --> F{Valid?}
+    F -- Ya --> G[Masuk ke Dashboard]
+    F -- Tidak --> H[Tampilkan Pesan Error]
+    H --> B
 ```
 
 ---
 
-## 3. Persyaratan Non-Fungsional
-
-| ID     | Kategori        | Deskripsi                                                                   |
-| ------ | --------------- | --------------------------------------------------------------------------- |
-| NFR001 | Kinerja         | Respon aplikasi < 2 detik untuk operasi dasar.                              |
-| NFR002 | Keamanan        | Password di-hash, data pengguna dienkripsi.                                 |
-| NFR003 | Keandalan       | Uptime sistem minimal 99%.                                                  |
-| NFR004 | Usability       | UI sederhana, mudah digunakan semua kalangan.                               |
-| NFR005 | Skalabilitas    | Sistem dapat diperluas ke cloud untuk sinkronisasi multi-device.            |
-| NFR006 | Portabilitas    | Dibangun dengan Flutter agar dapat berjalan di Android & iOS.               |
-| NFR007 | Maintainability | Kode modular menggunakan arsitektur MVVM atau BLoC untuk memudahkan update. |
-
----
-
-## 4. Antarmuka Eksternal
-
-* **Firebase Authentication:** Login & registrasi.
-* **Firebase Firestore / SQLite:** Penyimpanan daftar belanja.
-* **Firebase Cloud Messaging:** Push notifikasi.
-* **Google Sign-In (opsional):** Autentikasi alternatif.
-
----
-
-## 5. Model Data (High-Level)
+### 5.2 Flowchart Pengelolaan Daftar Belanja
 
 ```mermaid
-erDiagram
-  USER {
-    string user_id
-    string nama
-    string email
-    string password_hash
-  }
-
-  SHOPPINGLIST {
-    string list_id
-    string user_id
-    string nama_list
-    datetime tanggal_dibuat
-  }
-
-  ITEM {
-    string item_id
-    string list_id
-    string nama_item
-    string kategori
-    int jumlah
-    string status
-  }
-
-  SHAREDLIST {
-    string shared_id
-    string list_id
-    string user_id_shared
-  }
-
-  USER ||--o{ SHOPPINGLIST : memiliki
-  SHOPPINGLIST ||--o{ ITEM : berisi
-  SHOPPINGLIST ||--o{ SHAREDLIST : dibagikan
-  USER ||--o{ SHAREDLIST : menerima
+flowchart TD
+    A[Dashboard] --> B[Membuat Daftar Baru]
+    A --> C[Pilih Daftar]
+    C --> D[Tambah Item]
+    D --> E[Item Masuk Database Firebase]
+    C --> F[Tandai Item Selesai]
+    C --> G[Edit/Hapus Item]
+    G --> E
 ```
 
 ---
 
-## 6. Batasan & Asumsi
+### 5.3 Flowchart Reminder
 
-* **Platform:** Versi awal hanya mendukung Android.
-* **Internet:** Beberapa fitur (login, berbagi, sinkronisasi) membutuhkan koneksi internet.
-* **Fitur Premium:** Tema custom dan sinkronisasi cloud akan tersedia pada versi lanjutan.
+```mermaid
+flowchart TD
+    A[Pengguna Atur Reminder] --> B[Simpan di Firebase]
+    B --> C[Trigger Waktu Reminder]
+    C --> D[Kirim Notifikasi ke Pengguna]
+```
 
 ---
 
-## 7. Penutup
+## 6. Diagram Kelas (Class Diagram)
 
-Dokumen **SRS Belanja Pintar** ini menjelaskan kebutuhan teknis aplikasi yang akan dikembangkan. Dengan dokumen ini, tim pengembang dan tester memiliki acuan jelas dalam membangun, menguji, dan memvalidasi aplikasi agar sesuai dengan tujuan bisnis dan kebutuhan pengguna.
+```mermaid
+classDiagram
+    class Pengguna {
+        +String userId
+        +String nama
+        +String email
+        +login()
+        +registrasi()
+    }
 
-Langkah berikutnya adalah menyusun **SDD (Software Design Document)** untuk merancang arsitektur teknis dan detail implementasi aplikasi.
+    class DaftarBelanja {
+        +String daftarId
+        +String namaDaftar
+        +Date tanggalDibuat
+        +List~Item~ items
+        +tambahItem()
+        +hapusItem()
+    }
+
+    class Item {
+        +String itemId
+        +String namaItem
+        +int jumlah
+        +String catatan
+        +boolean statusSelesai
+        +tandaiSelesai()
+    }
+
+    class Reminder {
+        +String reminderId
+        +Date waktu
+        +String pesan
+        +aturReminder()
+    }
+
+    Pengguna "1" --> "*" DaftarBelanja
+    DaftarBelanja "1" --> "*" Item
+    DaftarBelanja "0..1" --> "1" Reminder
+```
+
+---
+
+## 7. Antarmuka Pengguna (Wireframe Sederhana)
+
+* **Halaman Login/Registrasi**: form email & password.
+* **Dashboard**: daftar belanja tampil sebagai list card.
+* **Halaman Daftar Belanja**: menampilkan item, tombol tambah item, tombol checklist.
+* **Reminder**: form pilih tanggal/waktu + pesan.
+
+---
+
+## 8. Kriteria Keberhasilan
+
+* Aplikasi dapat login/registrasi melalui Firebase.
+* Pengguna dapat menambah/menghapus item di daftar belanja.
+* Reminder berhasil mengirim notifikasi.
+* Daftar dapat dibagikan ke pengguna lain.
+
+---
+
+## 9. Referensi
+
+* Sommerville, Ian. *Software Engineering*. Pearson.
+* IEEE Std 830-1998: *IEEE Recommended Practice for Software Requirements Specifications*.
+* Dokumentasi Firebase: [https://firebase.google.com/docs](https://firebase.google.com/docs)
