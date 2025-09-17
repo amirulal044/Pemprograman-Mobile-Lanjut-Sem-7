@@ -56,7 +56,7 @@ Aplikasi ini akan dikembangkan dengan target awal platform **Android**, kemudian
 ```mermaid
 usecaseDiagram
   actor Pengguna
-  actor "Sistem Firebase" as Firebase
+  actor Firebase as "Sistem Firebase"
 
   Pengguna --> (Login/Registrasi)
   Pengguna --> (Kelola Daftar Belanja)
@@ -65,11 +65,12 @@ usecaseDiagram
   Pengguna --> (Atur Reminder)
   Pengguna --> (Berbagi Daftar)
 
-  (Login/Registrasi) --> Firebase
-  (Kelola Daftar Belanja) --> Firebase
-  (Tambah Item) --> Firebase
-  (Berbagi Daftar) --> Firebase
-  (Atur Reminder) --> Firebase
+  (Login/Registrasi) --> (Sistem Firebase)
+  (Kelola Daftar Belanja) --> (Sistem Firebase)
+  (Tambah Item) --> (Sistem Firebase)
+  (Berbagi Daftar) --> (Sistem Firebase)
+  (Atur Reminder) --> (Sistem Firebase)
+
 ```
 
 ---
